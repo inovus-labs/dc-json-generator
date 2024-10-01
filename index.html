@@ -1,162 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Form</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>JSON Generator | Design Compass</title>
+
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	
+	<link rel="stylesheet" href="style.css">
 </head>
+<body class="bg-gray-100">
 
-<style>
-    body {
-        background-color: #1B1F31; /* Dark background */
-        color: #E0E0E0; /* Light text */
-        font-family: Arial, sans-serif;
-    }
+    <div id="app" class="min-h-screen flex items-center justify-center p-6">
+		<div class="max-w-xl w-full bg-white shadow-lg rounded-lg p-8">
+			<h2 class="text-2xl font-bold mb-6 text-center">Design Compass | JSON Generator</h2>
 
-    form {
-        background-color: #2C3144; /* Slightly lighter background for the form */
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        max-width: 600px;
-        margin: 20px auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
 
-    h1 {
-        color: #ffffff;
-    }
+			<!-- Form section -->
+			<div v-for="(field, index) in formFields" :key="index" class="mb-6 relative">
+				<label :for="field.name" class="block text-lg font-semibold mb-2">{{ field.label }}:</label>
+				<div @click="toggleDropdown(index)" class="bg-gray-100 p-3 rounded cursor-pointer flex justify-between items-center">
+					<span>Select {{ field.label }}</span>
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+					</svg>
+				</div>
+				
+				<!-- Dropdown options with checkboxes -->
+				<div v-if="field.isOpen" class="absolute z-10 mt-2 bg-white border border-gray-200 rounded shadow-lg w-full max-h-48 overflow-y-auto">
+					<div v-for="option in field.options" :key="option.value" class="flex items-center px-4 py-2 border-b border-gray-200">
+						<input
+							type="checkbox"
+							:id="option.value"
+							:value="option.value"
+							v-model="field.selectedOptions"
+							class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+						/>
+						<label :for="option.value" class="ml-2 text-gray-700 w-full">{{ option.label }}</label>
+					</div>
+				</div>
+			</div>
 
-    input, select, textarea {
-        width: calc(50% - 10px);
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #3B4252;
-        border-radius: 5px;
-        background-color: #2C3144; /* Input background matching form */
-        color: #D8DEE9; /* Text color */
-    }
 
-    input:focus, select:focus, textarea:focus {
-        outline: none;
-        border-color: #5E81AC; /* Accent border color on focus */
-    }
 
-    button {
-        padding: 10px 15px;
-        margin-top: 10px;
-        border: none;
-        background-color: #5E81AC; /* Accent button color */
-        color: #E0E0E0;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
 
-    button:hover {
-        background-color: #81A1C1; /* Slightly lighter on hover */
-    }
 
-    label {
-        display: block;
-        margin-top: 15px;
-        color: #E5E9F0; /* Light color for labels */
-        margin-left: -400px;
-        font-size: 25px;
-    }
 
-    textarea {
-        height: 100px;
-    }
+			<!-- Button to generate JSON -->
+			<div class="text-center">
+				<button
+					@click="generateJSON"
+					class="bg-indigo-600 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500 transition"
+				>
+					Generate JSON
+				</button>
+			</div>
 
-    pre{
-    background-color: #2C3144; 
-    color: #D8DEE9; 
-    padding: 20px; 
-    border-radius: 10px; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
-    max-width: 600px; 
-    margin: 20px auto; 
-    white-space: pre-wrap;
-    font-size: 25px;
-    }
-</style>
+			<!-- Modal for displaying generated JSON -->
+			<div v-if="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+				<div class="bg-white rounded-lg p-6 max-w-lg w-full">
+					<h3 class="text-xl font-semibold mb-4">Generated JSON</h3>
+					<pre class="bg-gray-100 p-4 rounded text-sm text-gray-800">{{ generatedJSON }}</pre>
+			
+					<!-- Modal actions -->
+					<div class="mt-4 flex justify-end space-x-2">
+						<button
+							@click="copyToClipboard"
+							class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-400 transition"
+						>
+							Copy to Clipboard
+						</button>
+						<button
+							@click="closeModal"
+							class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-400 transition"
+						>
+							Close
+						</button>
+					</div>
+				</div>
+			</div>
 
-<body>
-    <form id="sampleForm">
-        <label for="field1">Field 1:</label>
-        <select id="field1" name="field1">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-        </select>
-        <br>
 
-        <label for="field2">Field 2:</label>
-        <input list="field2Options" id="field2" name="field2" value="" placeholder="Option 2">
-        <datalist id="field2Options">
-            <option value="Option 1">
-            <option value="Option 2">
-            <option value="amith"></option>
-        </datalist>
-        <br>
+		</div>
+  	</div>
 
-        <label for="field3">Field 3:</label>
-        <select id="field3" name="field3">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-        </select>
-        <br>
-
-        <label for="field4">Field 4:</label>
-        <select id="field4" name="field4">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-        </select>
-        <br>
-
-        <label for="field5">Field 5:</label>
-        <select id="field5" name="field5">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-        </select>
-        <br>
-
-        <button type="button" onclick="generateJSON()">Generate JSON</button>
-    </form>
-
-    <pre id="result"></pre>
-
-<script>
-    function generateJSON() {
-        const form = document.getElementById('sampleForm');
-        const formData = new FormData(form);
-        const json = {};
-        let allFieldsFilled = true;
-
-        formData.forEach((value, key) => {
-            if (!value) {
-                allFieldsFilled = false;
-                document.getElementById(key).style.borderColor = 'red'; // Highlight empty fields
-            } else {
-                document.getElementById(key).style.borderColor = ''; // Reset border color
-                json[key] = value;
-            }
-        });
-
-        if (allFieldsFilled) {
-            document.getElementById('result').textContent = JSON.stringify(json, null, 2);
-            updateJSONFile(json);
-        } else {
-            document.getElementById('result').textContent = 'Please fill in all fields.';
-        }
-    }
-</script>
+  	<script src="script.js"></script>
 
 </body>
 </html>
