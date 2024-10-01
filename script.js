@@ -1,36 +1,32 @@
+
+import { data } from './data.js';
 const { createApp } = Vue;
 
 createApp({
     data() {
         return {
-            // Fields array containing dropdown options
             formFields: [
                 {
                     name: 'product_category',
                     label: 'Category',
-                    options: [
-                        { label: "Artificial Intelligence", value: "artificial intelligence" },
-                        { label: "Business", value: "business" },
-                        { label: "Collaboration", value: "collaboration" },
-                        { label: "Communication", value: "communication" },
-                        { label: "CRM", value: "crm" },
-                        { label: "Crypto & Web3", value: "crypto & web3" },
-                    ]
-                    ,
+                    options: data.product_category,
                     selectedOptions: [],
                     isOpen: false
                 },
                 {
-                    name: 'fruits',
-                    label: 'Fruits',
-                    options: [
-                        { label: 'Apple', value: 'apple' },
-                        { label: 'Banana', value: 'banana' },
-                        { label: 'Orange', value: 'orange' }
-                    ],
+                    name: 'screens',
+                    label: 'Screens',
+                    data: data.screens,
                     selectedOptions: [],
                     isOpen: false
-                }
+                },
+                {
+                    name: 'ui_elements',
+                    label: 'UI Elements',
+                    data: data.ui_elements,
+                    selectedOptions: [],
+                    isOpen: false
+                },
             ],
             generatedJSON: null,  // To hold the generated JSON
             showModal: false      // To control the modal visibility
