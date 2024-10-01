@@ -14,33 +14,64 @@
 <body class="bg-gray-100">
 
     <div id="app" class="min-h-screen flex items-center justify-center p-6">
-		<div class="max-w-xl w-full bg-white shadow-lg rounded-lg p-8">
+		<div class="max-w-6xl w-full bg-white shadow-lg rounded-lg p-8">
 			<h2 class="text-2xl font-bold mb-6 text-center">Design Compass | JSON Generator</h2>
 
 
 			<!-- Form section -->
-			<div v-for="(field, index) in formFields" :key="index" class="mb-6 relative">
-				<label :for="field.name" class="block text-lg font-semibold mb-2">{{ field.label }}:</label>
-				<div @click="toggleDropdown(index)" class="bg-gray-100 p-3 rounded cursor-pointer flex justify-between items-center">
-					<span>Select {{ field.label }}</span>
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-						<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-					</svg>
-				</div>
-				
+			<div class="flex flex-wrap">
+
+
+				<!-- Input fields -->
+
+
 				<!-- Dropdown options with checkboxes -->
-				<div v-if="field.isOpen" class="absolute z-10 mt-2 bg-white border border-gray-200 rounded shadow-lg w-full max-h-48 overflow-y-auto">
-					<div v-for="option in field.options" :key="option.value" class="flex items-center px-4 py-2 border-b border-gray-200">
-						<input
-							type="checkbox"
-							:id="option.value"
-							:value="option.value"
-							v-model="field.selectedOptions"
-							class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-						/>
-						<label :for="option.value" class="ml-2 text-gray-700 w-full">{{ option.label }}</label>
+				<div v-for="(field, index) in formFields" :key="index" class="lg:w-1/3 lg:px-4 w-full mb-6 relative">
+					<label :for="field.name" class="block text-lg font-semibold mb-2">{{ field.label }}:</label>
+					<div @click="toggleDropdown(index)" class="bg-gray-100 p-3 rounded cursor-pointer flex justify-between items-center">
+						<span>Select {{ field.label }}</span>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+						</svg>
+					</div>
+					
+					<div v-if="field.isOpen" class="absolute z-10 mt-2 bg-white border border-gray-200 rounded shadow-lg w-full max-h-48 overflow-y-auto">
+						
+						<template v-if="field.options">
+							<div v-for="option in field.options" :key="option.value" class="flex items-center px-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 p-2">
+								<input
+									type="checkbox"
+									:id="option.value"
+									:value="option.value"
+									v-model="field.selectedOptions"
+									class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer"
+								/>
+								<label :for="option.value" class="ml-3 text-gray-700 w-auto cursor-pointer">{{ option.label }}</label>
+							</div>
+						</template>
+
+						<template v-else>
+							<div v-for="option in field.data">
+								<label :for="option.title" class="px-4 py-3 block text-gray-700 font-semibold border-b border-gray-200">{{ option.title }}</label>
+
+								<div v-for="subOption in option.options" :key="subOption.value" class="flex items-center px-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 p-2">
+									<input
+										type="checkbox"
+										:id="subOption.value"
+										:value="subOption.value"
+										v-model="field.selectedOptions"
+										class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer"
+									/>
+									<label :for="subOption.value" class="ml-3 text-gray-700 w-auto cursor-pointer">{{ subOption.label }}</label>
+								</div>
+							</div>
+						</template>
+
+
 					</div>
 				</div>
+
+
 			</div>
 
 
@@ -86,7 +117,7 @@
 		</div>
   	</div>
 
-  	<script src="script.js"></script>
+  	<script type="module" src="script.js"></script>
 
 </body>
 </html>
