@@ -43,7 +43,7 @@ createApp({
                 }
             ],
             generatedJSON: null,  // To hold the generated JSON
-            showModal: true,     // To control the modal visibility
+            showModal: false,     // To control the modal visibility
             enableCTA: false,
             showErrors: false,
             screenName: '',
