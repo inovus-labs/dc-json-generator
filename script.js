@@ -122,11 +122,16 @@ createApp({
             allowImagePreview: true,
             imagePreviewHeight: 200,
             server: {
+                url: 'https://r2-upload-worker.devmorphix.workers.dev',
                 process: {
-                    url: 'https://r2-upload-worker.devmorphix.workers.dev',
+                    url: '/',
                     method: 'POST',
                     withCredentials: false,
-                    headers: {},
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    allowFileTypeValidation: true,
+                    acceptedFileTypes: ['image/*'],
                     timeout: 7000,
                     onload: (response) => {
                         console.log(response);
