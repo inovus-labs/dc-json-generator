@@ -1,4 +1,3 @@
-
 import { data } from './data.js';
 const { createApp } = Vue;
 
