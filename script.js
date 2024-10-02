@@ -1,6 +1,7 @@
 import { data } from './data.js';
 const { createApp } = Vue;
 
+
 createApp({
     data() {
         return {
@@ -73,7 +74,6 @@ createApp({
                 }
 
             }
-
         },
 
         closeDropdowns() {
@@ -88,6 +88,14 @@ createApp({
             field.isOpen = true
         },
 
+        handleFileUpload() {
+            const file = this.pond.getFile();
+            if (file) {
+                this.screenImage = file.getFileEncodeBase64String();
+            }
+            console.log(this.screenImage);
+        },
+
         generateJSON() {
             const selectedData = {};
             selectedData.name = this.screenName;
@@ -96,7 +104,7 @@ createApp({
             });
             selectedData.date = new Date().toISOString();
             this.generatedJSON = JSON.stringify(selectedData, null, 2);
-            this.showModal = true;
+            this.showModal = true; 
         },
 
         copyToClipboard() {
@@ -107,5 +115,21 @@ createApp({
             });
         }
 
-    }
+    },
+    mounted() {
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        
+        const inputElement = document.querySelector('input[type="file"]');
+		this.pond = FilePond.create(inputElement);
+        
+        this.pond.setOptions({
+            allowMultiple: false,
+            allowImagePreview: true,
+            allowImageCrop: true,
+            imageCropAspectRatio: '16:9',
+            imagePreviewHeight: 200
+        });
+
+        this.pond.on('processfile', this.handleFileUpload);
+    },
 }).mount('#app');

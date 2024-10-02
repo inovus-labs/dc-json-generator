@@ -9,18 +9,21 @@
 
 	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-	
+
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
 	
+	<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
+	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"/>
+
 	<link rel="stylesheet" href="style.css">
 
 </head>
 <body class="bg-gray-100">
 
 	<div id="app">
-		<div class="min-h-screen flex items-center justify-center py-10 px-4 lg:p-6" @click="closeDropdowns">
+		<div class="lg:min-h-screen h-full flex items-center justify-center py-10 px-4 lg:p-6" @click="closeDropdowns">
 			<div class="max-w-6xl w-full bg-white shadow-lg rounded-lg py-10 px-4 lg:p-6">
 
 				<h1 class="text-3xl font-bold text-center">Design Compass | JSON Generator</h1>
@@ -34,122 +37,118 @@
 	
 	
 	
-				<div class="flex flex-wrap mt-8 mb-6">
-	
+				<div class="w-full flex lg:flex-row flex-col items-start justify-center">
 
-					<!-- Input field -->
-					<div class="lg:w-1/3 lg:px-4 w-full mb-6">
-						<label for="app_name" class="block text-xl font-semibold mb-2">Screen Name:</label>
-						<input
-							type="text"
-							id="screen_name"
-							name="screen_name"
-							placeholder="Enter Screen Name"
-							v-model="screenName"
-							class="w-full text-lg p-3 border border-gray-200 rounded focus:ring-indigo-500 focus:border-indigo-500"
-						/>
-					</div>
-	
-	
-					<!-- Dropdown options with checkboxes -->
-					<div
-						v-for="(field, index) in formFields"
-						:key="index"
-						@click.stop
-						class="lg:w-1/3 lg:px-4 w-full mb-6 relative"
-					>
-						
-						<label :for="field.name" class="block text-xl font-semibold mb-2">{{ field.label }}:</label>
-	
-						<!-- close any open dropdowns before opening a new one -->
-						<input
-							type="text"
-							:id="field.name"
-							:placeholder="'Search ' + field.label"
-							v-model="field.search"
-							@focus="handleFocus(field)"
-							class="w-full text-lg p-3 border border-gray-200 rounded focus:ring-indigo-500 focus:border-indigo-500"
-						/>
-						
-	
-						<!-- Dropdown options -->
-						<template v-if="field.isOpen">
-							<div class="absolute text-lg z-10 mt-2 bg-white border border-gray-200 rounded shadow-lg w-full max-h-48 overflow-y-auto">
-								
-								<template v-if="field.options">								
-									<div v-for="option in filterOptions(field)" :key="option.value" class="flex items-center px-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 p-2">
-										<input
-											:type="field.multiple ? 'checkbox' : 'radio'"
-											:id="option.value"
-											:value="option.value"
-											v-model="field.selectedOptions"
-											class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer"
-										/>
-										<label :for="option.value" class="ml-3 text-gray-700 w-full cursor-pointer">{{ option.label }}</label>
-									</div>
-								</template>
+					<div class="flex lg:w-3/5 w-full flex-wrap mt-8 lg:mb-6">
 		
-								<template v-else>
-									<div v-for="option in filterOptions(field)">
-										<label :for="option.title" class="px-4 py-3 block text-gray-700 font-semibold border-b border-gray-200">{{ option.title }}</label>
-										<div v-for="subOption in option.options" :key="subOption.value" class="flex items-center px-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 p-2">
+	
+						<!-- Input field -->
+						<div class="lg:w-full lg:px-3 py-3 w-full">
+							<label for="app_name" class="block text-xl font-semibold mb-2">Screen Name:</label>
+							<input
+								type="text"
+								id="screen_name"
+								name="screen_name"
+								placeholder="Enter Screen Name"
+								v-model="screenName"
+								class="w-full text-lg p-3 border border-gray-200 rounded focus:ring-indigo-500 focus:border-indigo-500"
+							/>
+						</div>
+		
+		
+						<!-- Dropdown options with checkboxes -->
+						<div
+							v-for="(field, index) in formFields"
+							:key="index"
+							@click.stop
+							class="lg:w-1/2 lg:px-3 py-3 w-full relative"
+						>
+							
+							<label :for="field.name" class="block text-xl font-semibold mb-2">{{ field.label }}:</label>
+							<input
+								type="text"
+								:id="field.name"
+								:placeholder="'Search ' + field.label"
+								v-model="field.search"
+								@focus="handleFocus(field)"
+								class="w-full text-lg p-3 border border-gray-200 rounded focus:ring-indigo-500 focus:border-indigo-500"
+							/>
+							
+		
+							<!-- Dropdown options -->
+							<template v-if="field.isOpen">
+								<div class="absolute text-lg z-10 mt-2 bg-white border border-gray-200 rounded shadow-lg w-full max-h-48 overflow-y-auto">
+									
+									<template v-if="field.options">								
+										<div v-for="option in filterOptions(field)" :key="option.value" class="flex items-center px-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 p-2">
 											<input
-												type="checkbox"
-												:id="subOption.value"
-												:value="subOption.value"
+												:type="field.multiple ? 'checkbox' : 'radio'"
+												:id="option.value"
+												:value="option.value"
 												v-model="field.selectedOptions"
 												class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer"
 											/>
-											<label :for="subOption.value" class="ml-3 text-gray-700 w-full cursor-pointer">{{ subOption.label }}</label>
+											<label :for="option.value" class="ml-3 text-gray-700 w-full cursor-pointer">{{ option.label }}</label>
 										</div>
-									</div>
-								</template>
+									</template>
+			
+									<template v-else>
+										<div v-for="option in filterOptions(field)">
+											<label :for="option.title" class="px-4 py-3 block text-gray-700 font-semibold border-b border-gray-200">{{ option.title }}</label>
+											<div v-for="subOption in option.options" :key="subOption.value" class="flex items-center px-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 p-2">
+												<input
+													type="checkbox"
+													:id="subOption.value"
+													:value="subOption.value"
+													v-model="field.selectedOptions"
+													class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer"
+												/>
+												<label :for="subOption.value" class="ml-3 text-gray-700 w-full cursor-pointer">{{ subOption.label }}</label>
+											</div>
+										</div>
+									</template>
+			
+								</div>
+							</template>
 		
+		
+							<!-- Error message -->
+							<div class="block text-md">
+								<template v-if="field?.multiple && field.selectedOptions?.length >= 1">
+									<span class="text-green-500">{{ field.selectedOptions.join(', ') }}</span>
+								</template>
+								<template v-else-if="!field?.multiple && field?.selectedOptions">
+									<span class="text-green-500">{{ field.selectedOptions }}</span>
+								</template>
+								<template v-else>
+									<span :class="showErrors ? 'text-red-500' : 'text-gray-400'">No {{ field.label }} selected</span>
+								</template>
 							</div>
-						</template>
-	
-	
-						<!-- Error message -->
-						<div class="block text-md">
-							<template v-if="field?.multiple && field.selectedOptions?.length >= 1">
-								<span class="text-green-500">{{ field.selectedOptions.join(', ') }}</span>
-							</template>
-							<template v-else-if="!field?.multiple && field?.selectedOptions">
-								<span class="text-green-500">{{ field.selectedOptions }}</span>
-							</template>
-							<template v-else>
-								<span :class="showErrors ? 'text-red-500' : 'text-gray-400'">No {{ field.label }} selected</span>
-							</template>
+		
 						</div>
 	
 					</div>
-
-
-					<!-- Upload Image -->
-					<div class="lg:w-1/3 lg:px-4 w-full mb-6">
-						<label for="app_name" class="block text-xl font-semibold mb-2">Upload Image:</label>
+				
+					<div class="lg:w-2/5 w-full lg:px-3 py-3 lg:mt-8">
+						<label for="image-upload" class="block text-xl font-semibold mb-2">Upload Image:</label>
 						<input
 							type="file"
-							id="screen_image"
-							name="screen_image"
-							accept="image/*"
-							v-model="screenImage"
-							required
-							class="w-full text-lg p-3 border border-gray-200 rounded focus:ring-indigo-500 focus:border-indigo-500"
+							class="filepond"
+							name="filepond"
+							@processfile="handleFileUpload"
 						/>
 					</div>
-
 
 				</div>
 	
 	
 	
 	
-	
 				<!-- Button to generate JSON -->
 				<div class="text-center text-lg">
+					<!-- @click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()" -->
 					<button
-						@click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()"
+						@click.stop="generateJSON()"
 						class="font-semibold py-1.5 px-6 rounded"
 						:class="!formFields.every(field => field.selectedOptions?.length) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-500 transition'"
 					>
@@ -201,7 +200,11 @@
 		</div>
 	</div>
 
-  	<script type="module" src="script.js"></script>
+
+	<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+	<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+
+	<script type="module" src="script.js"></script>
 
 </body>
 </html>
