@@ -48,7 +48,7 @@ createApp({
             enableCTA: false,
             showErrors: false,
             screenName: '',
-            screenImage: ''
+            imageUrl: null,
         };
     },
     methods: {
@@ -94,6 +94,9 @@ createApp({
             this.formFields.forEach(field => {
                 selectedData[field.name] = field.selectedOptions;
             });
+            if(this.imageUrl) {
+                selectedData.image = this.imageUrl;
+            }
             selectedData.date = new Date().toISOString();
             this.generatedJSON = JSON.stringify(selectedData, null, 2);
             this.showModal = true; 
@@ -120,13 +123,14 @@ createApp({
             imagePreviewHeight: 200,
             server: {
                 process: {
-                    url: 'https://your-worker-url.workers.dev',
+                    url: 'https://r2-upload-worker.devmorphix.workers.dev',
                     method: 'POST',
                     withCredentials: false,
                     headers: {},
                     timeout: 7000,
                     onload: (response) => {
-                        console.log('File uploaded successfully:', response);
+                        console.log(response);
+                        this.imageUrl = response.url;
                     },
                     onerror: (response) => {
                         console.error('Failed to upload:', response);

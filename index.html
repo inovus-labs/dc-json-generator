@@ -146,19 +146,20 @@
 	
 				<!-- Button to generate JSON -->
 				<div class="text-center text-lg">
+					<!-- @click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()" -->
 					<button
-						@click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()"
+						@click.stop="generateJSON()"
 						class="font-semibold py-1.5 px-6 rounded"
 						:class="!formFields.every(field => field.selectedOptions?.length) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-500 transition'"
 					>
 						Generate JSON
 					</button>
 				</div>
-	
+				
 	
 				<!-- Modal for displaying generated JSON -->
 				<div v-if="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-					<div class="bg-white rounded-lg p-6 max-w-lg w-full">
+					<div class="bg-white rounded-lg p-6 m-4 lg:my-4 max-w-lg w-full">
 						<h3 class="text-xl font-semibold">Generated JSON</h3>
 						<div class="mb-2">
 
