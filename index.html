@@ -20,10 +20,16 @@
 <body class="bg-gray-100">
 
 	<div id="app">
-		<div class="min-h-screen flex items-center justify-center p-6" @click="closeDropdowns">
-			<div class="max-w-6xl w-full bg-white shadow-lg rounded-lg p-8">
+		<div class="min-h-screen flex items-center justify-center py-10 px-4 lg:p-6" @click="closeDropdowns">
+			<div class="max-w-6xl w-full bg-white shadow-lg rounded-lg py-10 px-4 lg:p-6">
 
-				<h2 class="text-3xl font-bold text-center">Design Compass | JSON Generator</h2>
+				<h1 class="text-3xl font-bold text-center">Design Compass | JSON Generator</h1>
+				
+				<div class="text-lg text-center text-gray-500 mt-6 border border-gray-200 p-4 rounded lg:flex lg:flex-col lg:-space-y-1 bg-gray-50">
+					<span class="hidden lg:visible">Contribute to the open-source with ease!</span>
+					<span>This tool helps you easily contribute data to the <a target="_blank" href="https://github.com/inovus-labs/design-compass">Design Compass</a> project on GitHub. </span>
+					<span>Simply fill in the details below, and a JSON file will be generated for you. No coding required!</span>
+				</div>
 	
 	
 	
@@ -142,8 +148,9 @@
 	
 				<!-- Button to generate JSON -->
 				<div class="text-center text-lg">
+					<!-- @click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()" -->
 					<button
-						@click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()"
+						@click.stop="generateJSON()"
 						class="font-semibold py-1.5 px-6 rounded"
 						:class="!formFields.every(field => field.selectedOptions?.length) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-500 transition'"
 					>
@@ -157,7 +164,18 @@
 					<div class="bg-white rounded-lg p-6 max-w-lg w-full">
 						<h3 class="text-xl font-semibold">Generated JSON</h3>
 						<div class="mb-2">
-							<span class="text-gray-500 text-sm">Copy the JSON below and use it in your project</span>
+
+							<p class="text-gray-500 text-sm">To contribute to the Design Compass project, follow these steps:</p>
+							
+							<ol class="list-decimal list-inside text-gray-500 text-sm pl-4">
+								<li>Fork the <a target="_blank" href="">Design Compass</a> project on GitHub</li>
+								<li>Create a folder with your GitHub username inside the <code class="bg-gray-100 text-xs p-1 rounded">data</code> folder</li>
+								<li>Create a folder inside it with the name of the app</li>
+								<li>Create a files with the screen name and extension <code class="bg-gray-100 text-xs p-1 rounded">.json</code></li>
+								<li>Paste the JSON in the file</li>
+								<li>Commit the changes and create a pull request</li>
+							</ol>
+
 						</div>
 						<pre class="bg-gray-100 p-4 rounded text-sm text-gray-800">{{ generatedJSON }}</pre>
 				
