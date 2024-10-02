@@ -122,9 +122,8 @@ createApp({
             allowImagePreview: true,
             imagePreviewHeight: 200,
             server: {
-                url: 'https://r2-upload-worker.devmorphix.workers.dev',
                 process: {
-                    url: '/',
+                    url: 'https://r2-upload-worker.devmorphix.workers.dev',
                     method: 'POST',
                     withCredentials: false,
                     headers: {
