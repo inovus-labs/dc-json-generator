@@ -11,6 +11,7 @@ createApp({
                     options: data.product_category,
                     selectedOptions: [],
                     multiple: true,
+                    search: '',
                     isOpen: false
                 },
                 {
@@ -19,6 +20,7 @@ createApp({
                     data: data.screens,
                     selectedOptions: [],
                     multiple: true,
+                    search: '',
                     isOpen: false
                 },
                 {
@@ -27,6 +29,7 @@ createApp({
                     data: data.ui_elements,
                     selectedOptions: [],
                     multiple: true,
+                    search: '',
                     isOpen: false
                 },
                 {
@@ -35,28 +38,59 @@ createApp({
                     options: data.platform,
                     selectedOptions: null,
                     multiple: false,
+                    search: '',
                     isOpen: false
                 }
             ],
             generatedJSON: null,  // To hold the generated JSON
-            showModal: false,     // To control the modal visibility
+            showModal: true,     // To control the modal visibility
             enableCTA: false,
-            showErrors: false
+            showErrors: false,
+            screenName: '',
+            screenImage: ''
         };
     },
     methods: {
-        toggleDropdown(index) {
-            // Toggle the dropdown visibility
-            this.formFields.forEach((field, i) => {
-                if (i !== index) {
-                    field.isOpen = false;
+        
+        filterOptions(field) {
+            if (field.search === '') {
+                return field.options || field.data;
+            } else {
+
+                if(field.options) {
+                    return field.options.filter(option => {
+                        return option.label.toLowerCase().includes(field.search.toLowerCase());
+                    });
+                } else if(field.data) {
+                    return field.data.map(group => {
+                        return {
+                            // title: group.title,
+                            options: group.options.filter(option => {
+                                return option.label.toLowerCase().includes(field.search.toLowerCase());
+                            })
+                        }
+                    });
                 }
-            });
-            this.formFields[index].isOpen = !this.formFields[index].isOpen;
+
+            }
+
         },
+
+        closeDropdowns() {
+            this.formFields.forEach(field => {
+                field.isOpen = false;
+                field.search = '';
+            });
+        },
+        
+        handleFocus(field) {
+            this.closeDropdowns();
+            field.isOpen = true
+        },
+
         generateJSON() {
-            // Create an object with the selected options
             const selectedData = {};
+            selectedData.name = this.screenName;
             this.formFields.forEach(field => {
                 selectedData[field.name] = field.selectedOptions;
             });
@@ -64,25 +98,14 @@ createApp({
             this.generatedJSON = JSON.stringify(selectedData, null, 2);
             this.showModal = true;
         },
-        closeModal() {
-            // Close the modal
-            this.showModal = false;
-        },
+
         copyToClipboard() {
-            // Copy the generated JSON to the clipboard
             navigator.clipboard.writeText(this.generatedJSON).then(() => {
                 alert('Copied to clipboard!');
             },(err) => {
                 console.error('Failed to copy: ', err);
             });
         }
-    },
-    mounted() {
-        // Close all dropdowns when clicked outside
-        // document.addEventListener('click', (e) => {
-        //     this.formFields.forEach(field => {
-        //         field.isOpen = false;
-        //     });
-        // });
+
     }
 }).mount('#app');

@@ -19,125 +19,188 @@
 </head>
 <body class="bg-gray-100">
 
-    <div id="app" class="min-h-screen flex items-center justify-center p-6">
-		<div class="max-w-6xl w-full bg-white shadow-lg rounded-lg p-8">
-			<h2 class="text-3xl font-bold mb-6 text-center">Design Compass | JSON Generator</h2>
+	<div id="app">
+		<div class="min-h-screen flex items-center justify-center py-10 px-4 lg:p-6" @click="closeDropdowns">
+			<div class="max-w-6xl w-full bg-white shadow-lg rounded-lg py-10 px-4 lg:p-6">
 
-
-
-
-			<!-- Dropdown options with checkboxes -->
-			<div class="flex flex-wrap">
-				<div v-for="(field, index) in formFields" :key="index" class="lg:w-1/3 lg:px-4 w-full mb-6 relative">
-					
-					<label :for="field.name" class="block text-xl font-semibold mb-2">{{ field.label }}:</label>
-
-					<div @click.stop="toggleDropdown(index)" class="text-lg bg-gray-100 p-3 rounded cursor-pointer flex justify-between items-center">
-						<span>Select {{ field.label }}</span>
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-						</svg>
-					</div>
-					
-
-					<!-- Dropdown options -->
-					<template v-if="field.isOpen">
-						<div class="absolute text-lg z-10 mt-2 bg-white border border-gray-200 rounded shadow-lg w-full max-h-48 overflow-y-auto">
-							
-							<template v-if="field.options">								
-								<div v-for="option in field.options" :key="option.value" class="flex items-center px-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 p-2">
-									<input
-										:type="field.multiple ? 'checkbox' : 'radio'"
-										:id="option.value"
-										:value="option.value"
-										v-model="field.selectedOptions"
-										class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer"
-									/>
-									<label :for="option.value" class="ml-3 text-gray-700 w-full cursor-pointer">{{ option.label }}</label>
-								</div>
-							</template>
+				<h1 class="text-3xl font-bold text-center">Design Compass | JSON Generator</h1>
+				
+				<div class="text-lg text-center text-gray-500 mt-6 border border-gray-200 p-4 rounded lg:flex lg:flex-col lg:-space-y-1 bg-gray-50">
+					<span class="hidden lg:visible">Contribute to the open-source with ease!</span>
+					<span>This tool helps you easily contribute data to the <a target="_blank" href="https://github.com/inovus-labs/design-compass">Design Compass</a> project on GitHub. </span>
+					<span>Simply fill in the details below, and a JSON file will be generated for you. No coding required!</span>
+				</div>
 	
-							<template v-else>
-								<div v-for="option in field.data">
-									<label :for="option.title" class="px-4 py-3 block text-gray-700 font-semibold border-b border-gray-200">{{ option.title }}</label>
-									<div v-for="subOption in option.options" :key="subOption.value" class="flex items-center px-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 p-2">
+	
+	
+	
+				<div class="flex flex-wrap mt-8 mb-6">
+	
+
+					<!-- Input field -->
+					<div class="lg:w-1/3 lg:px-4 w-full mb-6">
+						<label for="app_name" class="block text-xl font-semibold mb-2">Screen Name:</label>
+						<input
+							type="text"
+							id="screen_name"
+							name="screen_name"
+							placeholder="Enter Screen Name"
+							v-model="screenName"
+							class="w-full text-lg p-3 border border-gray-200 rounded focus:ring-indigo-500 focus:border-indigo-500"
+						/>
+					</div>
+	
+	
+					<!-- Dropdown options with checkboxes -->
+					<div
+						v-for="(field, index) in formFields"
+						:key="index"
+						@click.stop
+						class="lg:w-1/3 lg:px-4 w-full mb-6 relative"
+					>
+						
+						<label :for="field.name" class="block text-xl font-semibold mb-2">{{ field.label }}:</label>
+	
+						<!-- close any open dropdowns before opening a new one -->
+						<input
+							type="text"
+							:id="field.name"
+							:placeholder="'Search ' + field.label"
+							v-model="field.search"
+							@focus="handleFocus(field)"
+							class="w-full text-lg p-3 border border-gray-200 rounded focus:ring-indigo-500 focus:border-indigo-500"
+						/>
+						
+	
+						<!-- Dropdown options -->
+						<template v-if="field.isOpen">
+							<div class="absolute text-lg z-10 mt-2 bg-white border border-gray-200 rounded shadow-lg w-full max-h-48 overflow-y-auto">
+								
+								<template v-if="field.options">								
+									<div v-for="option in filterOptions(field)" :key="option.value" class="flex items-center px-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 p-2">
 										<input
-											type="checkbox"
-											:id="subOption.value"
-											:value="subOption.value"
+											:type="field.multiple ? 'checkbox' : 'radio'"
+											:id="option.value"
+											:value="option.value"
 											v-model="field.selectedOptions"
 											class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer"
 										/>
-										<label :for="subOption.value" class="ml-3 text-gray-700 w-full cursor-pointer">{{ subOption.label }}</label>
+										<label :for="option.value" class="ml-3 text-gray-700 w-full cursor-pointer">{{ option.label }}</label>
 									</div>
-								</div>
-							</template>
+								</template>
+		
+								<template v-else>
+									<div v-for="option in filterOptions(field)">
+										<label :for="option.title" class="px-4 py-3 block text-gray-700 font-semibold border-b border-gray-200">{{ option.title }}</label>
+										<div v-for="subOption in option.options" :key="subOption.value" class="flex items-center px-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 p-2">
+											<input
+												type="checkbox"
+												:id="subOption.value"
+												:value="subOption.value"
+												v-model="field.selectedOptions"
+												class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer"
+											/>
+											<label :for="subOption.value" class="ml-3 text-gray-700 w-full cursor-pointer">{{ subOption.label }}</label>
+										</div>
+									</div>
+								</template>
+		
+							</div>
+						</template>
 	
+	
+						<!-- Error message -->
+						<div class="block text-md">
+							<template v-if="field?.multiple && field.selectedOptions?.length >= 1">
+								<span class="text-green-500">{{ field.selectedOptions.join(', ') }}</span>
+							</template>
+							<template v-else-if="!field?.multiple && field?.selectedOptions">
+								<span class="text-green-500">{{ field.selectedOptions }}</span>
+							</template>
+							<template v-else>
+								<span :class="showErrors ? 'text-red-500' : 'text-gray-400'">No {{ field.label }} selected</span>
+							</template>
 						</div>
-					</template>
-
-
-					<!-- Error message -->
-					<div class="block text-md">
-						<template v-if="field?.multiple && field.selectedOptions?.length >= 1">
-							<span class="text-green-500">Selected: {{ field.selectedOptions.join(', ') }}</span>
-						</template>
-						<template v-else-if="!field?.multiple && field?.selectedOptions">
-							<span class="text-green-500">Selected: {{ field.selectedOptions }}</span>
-						</template>
-						<template v-else>
-							<span :class="showErrors ? 'text-red-500' : 'text-gray-400'">No {{ field.label }} selected</span>
-						</template>
+	
 					</div>
+
+
+					<!-- Upload Image -->
+					<div class="lg:w-1/3 lg:px-4 w-full mb-6">
+						<label for="app_name" class="block text-xl font-semibold mb-2">Upload Image:</label>
+						<input
+							type="file"
+							id="screen_image"
+							name="screen_image"
+							accept="image/*"
+							v-model="screenImage"
+							required
+							class="w-full text-lg p-3 border border-gray-200 rounded focus:ring-indigo-500 focus:border-indigo-500"
+						/>
+					</div>
+
 
 				</div>
-			</div>
+	
+	
+	
+	
+	
+				<!-- Button to generate JSON -->
+				<div class="text-center text-lg">
+					<!-- @click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()" -->
+					<button
+						@click.stop="generateJSON()"
+						class="font-semibold py-1.5 px-6 rounded"
+						:class="!formFields.every(field => field.selectedOptions?.length) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-500 transition'"
+					>
+						Generate JSON
+					</button>
+				</div>
+	
+	
+				<!-- Modal for displaying generated JSON -->
+				<div v-if="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+					<div class="bg-white rounded-lg p-6 max-w-lg w-full">
+						<h3 class="text-xl font-semibold">Generated JSON</h3>
+						<div class="mb-2">
 
+							<p class="text-gray-500 text-sm">To contribute to the Design Compass project, follow these steps:</p>
+							
+							<ol class="list-decimal list-inside text-gray-500 text-sm pl-4">
+								<li>Fork the <a target="_blank" href="">Design Compass</a> project on GitHub</li>
+								<li>Create a folder with your GitHub username inside the <code class="bg-gray-100 text-xs p-1 rounded">data</code> folder</li>
+								<li>Create a folder inside it with the name of the app</li>
+								<li>Create a files with the screen name and extension <code class="bg-gray-100 text-xs p-1 rounded">.json</code></li>
+								<li>Paste the JSON in the file</li>
+								<li>Commit the changes and create a pull request</li>
+							</ol>
 
-
-
-
-			<!-- Button to generate JSON -->
-			<div class="text-center text-lg">
-				<button
-					@click="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()"
-					class="font-semibold py-1.5 px-6 rounded"
-					:class="!formFields.every(field => field.selectedOptions?.length) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-500 transition'"
-				>
-					Generate JSON
-				</button>
-			</div>
-
-			<!-- Modal for displaying generated JSON -->
-			<div v-if="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-				<div class="bg-white rounded-lg p-6 max-w-lg w-full">
-					<h3 class="text-xl font-semibold">Generated JSON</h3>
-					<div class="mb-2">
-						<span class="text-gray-500 text-sm">Copy the JSON below and use it in your project</span>
-					</div>
-					<pre class="bg-gray-100 p-4 rounded text-sm text-gray-800">{{ generatedJSON }}</pre>
-			
-					<!-- Modal actions -->
-					<div class="mt-4 flex justify-end space-x-2">
-						<button
-							@click="copyToClipboard"
-							class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-400 transition"
-						>
-							Copy to Clipboard
-						</button>
-						<button
-							@click="closeModal"
-							class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-400 transition"
-						>
-							Close
-						</button>
+						</div>
+						<pre class="bg-gray-100 p-4 rounded text-sm text-gray-800">{{ generatedJSON }}</pre>
+				
+						<!-- Modal actions -->
+						<div class="mt-4 flex justify-end space-x-2">
+							<button
+								@click.stop="copyToClipboard"
+								class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-400 transition"
+							>
+								Copy to Clipboard
+							</button>
+							<button
+								@click.stop="showModal = false"
+								class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-400 transition"
+							>
+								Close
+							</button>
+						</div>
 					</div>
 				</div>
+	
+	
 			</div>
-
-
 		</div>
-  	</div>
+	</div>
 
   	<script type="module" src="script.js"></script>
 
