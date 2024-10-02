@@ -1,6 +1,7 @@
 import { data } from './data.js';
 const { createApp } = Vue;
 
+
 createApp({
     data() {
         return {
@@ -43,7 +44,7 @@ createApp({
                 }
             ],
             generatedJSON: null,  // To hold the generated JSON
-            showModal: true,     // To control the modal visibility
+            showModal: false,     // To control the modal visibility
             enableCTA: false,
             showErrors: false,
             screenName: '',
@@ -73,7 +74,6 @@ createApp({
                 }
 
             }
-
         },
 
         closeDropdowns() {
@@ -96,7 +96,7 @@ createApp({
             });
             selectedData.date = new Date().toISOString();
             this.generatedJSON = JSON.stringify(selectedData, null, 2);
-            this.showModal = true;
+            this.showModal = true; 
         },
 
         copyToClipboard() {
@@ -107,5 +107,32 @@ createApp({
             });
         }
 
-    }
+    },
+    mounted() {
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        
+        const inputElement = document.querySelector('input[type="file"]');
+		this.pond = FilePond.create(inputElement);
+        
+        this.pond.setOptions({
+            allowMultiple: false,
+            allowImagePreview: true,
+            imagePreviewHeight: 200,
+            server: {
+                process: {
+                    url: 'https://your-worker-url.workers.dev',
+                    method: 'POST',
+                    withCredentials: false,
+                    headers: {},
+                    timeout: 7000,
+                    onload: (response) => {
+                        console.log('File uploaded successfully:', response);
+                    },
+                    onerror: (response) => {
+                        console.error('Failed to upload:', response);
+                    }
+                }
+            }
+        });
+    },
 }).mount('#app');
