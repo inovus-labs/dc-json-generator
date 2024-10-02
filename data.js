@@ -1,9 +1,19 @@
 
 export const data = {
 
+    // Operating systems
+    platform: [
+        { label: 'Android', value: 'android' },
+        { label: 'iOS', value: 'ios' },
+        { label: 'Web', value: 'web' },
+        { label: 'Windows', value: 'windows' },
+        { label: 'macOS', value: 'macos' },
+        { label: 'Linux', value: 'linux' }
+    ],
+
     // Product categories
     product_category: [
-        { label: "Artificial Intelligence", value: "artificial intelligence" },
+        { label: "Artificial Intelligence", value: "artificial-intelligence" },
         { label: "Business", value: "business" },
         { label: "Collaboration", value: "collaboration" },
         { label: "Communication", value: "communication" },
