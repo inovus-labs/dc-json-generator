@@ -126,10 +126,7 @@ createApp({
                     url: 'https://r2-upload-worker.devmorphix.workers.dev',
                     method: 'POST',
                     withCredentials: false,
-                    headers: {
-                        'Access-Control-Allow-Origin': '*'
-                    },
-                    allowFileTypeValidation: true,
+                    headers: {},
                     acceptedFileTypes: ['image/*'],
                     timeout: 7000,
                     onload: (response) => {
