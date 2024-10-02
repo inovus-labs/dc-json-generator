@@ -1,14 +1,24 @@
 
 export const data = {
 
+    // Operating systems
+    platform: [
+        { label: 'Android', value: 'android' },
+        { label: 'iOS', value: 'ios' },
+        { label: 'Web', value: 'web' },
+        { label: 'Windows', value: 'windows' },
+        { label: 'macOS', value: 'macos' },
+        { label: 'Linux', value: 'linux' }
+    ],
+
     // Product categories
     product_category: [
-        { label: "Artificial Intelligence", value: "artificial intelligence" },
+        { label: "Artificial Intelligence", value: "artificial-intelligence" },
         { label: "Business", value: "business" },
         { label: "Collaboration", value: "collaboration" },
         { label: "Communication", value: "communication" },
         { label: "CRM", value: "crm" },
-        { label: "Crypto & Web3", value: "crypto & web3" },
+        { label: "Crypto & Web3", value: "crypto-web3" },
     ],
     
 
@@ -43,7 +53,7 @@ export const data = {
             title: 'Control',
             options: [
                 { label: 'Button', value: 'button' },
-                { label: 'Floating Action Button', value: 'floating-action-button' },
+                { label: 'Floating Action Button', value: 'floating-action-button' }
             ]
         }
     ],
