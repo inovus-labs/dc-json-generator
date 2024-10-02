@@ -88,14 +88,6 @@ createApp({
             field.isOpen = true
         },
 
-        handleFileUpload() {
-            const file = this.pond.getFile();
-            if (file) {
-                this.screenImage = file.getFileEncodeBase64String();
-            }
-            console.log(this.screenImage);
-        },
-
         generateJSON() {
             const selectedData = {};
             selectedData.name = this.screenName;
@@ -125,11 +117,22 @@ createApp({
         this.pond.setOptions({
             allowMultiple: false,
             allowImagePreview: true,
-            allowImageCrop: true,
-            imageCropAspectRatio: '16:9',
-            imagePreviewHeight: 200
+            imagePreviewHeight: 200,
+            server: {
+                process: {
+                    url: 'https://your-worker-url.workers.dev',
+                    method: 'POST',
+                    withCredentials: false,
+                    headers: {},
+                    timeout: 7000,
+                    onload: (response) => {
+                        console.log('File uploaded successfully:', response);
+                    },
+                    onerror: (response) => {
+                        console.error('Failed to upload:', response);
+                    }
+                }
+            }
         });
-
-        this.pond.on('processfile', this.handleFileUpload);
     },
 }).mount('#app');
