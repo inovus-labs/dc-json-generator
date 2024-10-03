@@ -134,7 +134,7 @@
 						<input
 							type="file"
 							class="filepond"
-							name="filepond"
+							name="file"
 							@processfile="handleFileUpload"
 						/>
 					</div>
@@ -154,11 +154,11 @@
 						Generate JSON
 					</button>
 				</div>
-	
+				
 	
 				<!-- Modal for displaying generated JSON -->
 				<div v-if="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-					<div class="bg-white rounded-lg p-6 max-w-lg w-full">
+					<div class="bg-white rounded-lg p-6 m-4 lg:my-4 max-w-lg w-full">
 						<h3 class="text-xl font-semibold">Generated JSON</h3>
 						<div class="mb-2">
 
@@ -174,7 +174,7 @@
 							</ol>
 
 						</div>
-						<pre class="bg-gray-100 p-4 rounded text-sm text-gray-800">{{ generatedJSON }}</pre>
+						<pre class="bg-gray-100 p-4 rounded text-sm text-gray-800 whitespace-pre-wrap">{{ generatedJSON }}</pre>
 				
 						<!-- Modal actions -->
 						<div class="mt-4 flex justify-end space-x-2">
