@@ -106,6 +106,11 @@ createApp({
             },(err) => {
                 console.error('Failed to copy: ', err);
             });
+        },
+
+        closeModal() {
+            this.showModal = false;
+            location.reload();
         }
 
     },
