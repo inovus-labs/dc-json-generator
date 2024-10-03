@@ -144,7 +144,6 @@
 	
 	
 	
-				<!-- Button to generate JSON -->
 				<div class="text-center text-lg">
 					<button
 						@click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()"
@@ -156,43 +155,44 @@
 				</div>
 				
 	
-				<!-- Modal for displaying generated JSON -->
-				<div v-if="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-					<div class="bg-white rounded-lg p-6 m-4 lg:my-4 max-w-lg w-full">
-						<h3 class="text-xl font-semibold">Generated JSON</h3>
-						<div class="mb-2">
-
-							<p class="text-gray-500 text-sm">To contribute to the Design Compass project, follow these steps:</p>
-							
-							<ol class="list-decimal list-inside text-gray-500 text-sm pl-4">
-								<li>Fork the <a target="_blank" href="">Design Compass</a> project on GitHub</li>
-								<li>Create a folder with your GitHub username inside the <code class="bg-gray-100 text-xs p-1 rounded">data</code> folder</li>
-								<li>Create a folder inside it with the name of the app</li>
-								<li>Create a files with the screen name and extension <code class="bg-gray-100 text-xs p-1 rounded">.json</code></li>
-								<li>Paste the JSON in the file</li>
-								<li>Commit the changes and create a pull request</li>
-							</ol>
-
-						</div>
-						<pre class="bg-gray-100 p-4 rounded text-sm text-gray-800 whitespace-pre-wrap">{{ generatedJSON }}</pre>
-				
-						<!-- Modal actions -->
-						<div class="mt-4 flex justify-end space-x-2">
-							<button
-								@click.stop="copyToClipboard"
-								class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-400 transition"
-							>
-								Copy to Clipboard
-							</button>
-							<button
-								@click.stop="showModal = false"
-								class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-400 transition"
-							>
-								Close
-							</button>
+				<template v-if="showModal">
+					<div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+						<div class="bg-white rounded-lg p-6 m-4 lg:my-4 max-w-lg w-full">
+							<h3 class="text-xl font-semibold">Generated JSON</h3>
+							<div class="mb-2">
+	
+								<p class="text-gray-500 text-sm">To contribute to the Design Compass project, follow these steps:</p>
+								
+								<ol class="list-decimal list-inside text-gray-500 text-sm pl-4">
+									<li>Fork the <a target="_blank" href="">Design Compass</a> project on GitHub</li>
+									<li>Create a folder with your GitHub username inside the <code class="bg-gray-100 text-xs p-1 rounded">data</code> folder</li>
+									<li>Create a folder inside it with the name of the app</li>
+									<li>Create a files with the screen name and extension <code class="bg-gray-100 text-xs p-1 rounded">.json</code></li>
+									<li>Paste the JSON in the file</li>
+									<li>Commit the changes and create a pull request</li>
+								</ol>
+	
+							</div>
+							<pre class="bg-gray-100 p-4 rounded text-sm text-gray-800 whitespace-pre-wrap">{{ generatedJSON }}</pre>
+					
+							<!-- Modal actions -->
+							<div class="mt-4 flex justify-end space-x-2">
+								<button
+									@click.stop="copyToClipboard"
+									class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-400 transition"
+								>
+									Copy to Clipboard
+								</button>
+								<button
+									@click.stop="showModal = false"
+									class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-400 transition"
+								>
+									Close
+								</button>
+							</div>
 						</div>
 					</div>
-				</div>
+				</template>
 	
 	
 			</div>
