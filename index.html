@@ -146,9 +146,8 @@
 	
 				<!-- Button to generate JSON -->
 				<div class="text-center text-lg">
-					<!-- @click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()" -->
 					<button
-						@click.stop="generateJSON()"
+						@click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()"
 						class="font-semibold py-1.5 px-6 rounded"
 						:class="!formFields.every(field => field.selectedOptions?.length) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-500 transition'"
 					>
@@ -175,7 +174,7 @@
 							</ol>
 
 						</div>
-						<pre class="bg-gray-100 p-4 rounded text-sm text-gray-800">{{ generatedJSON }}</pre>
+						<pre class="bg-gray-100 p-4 rounded text-sm text-gray-800 whitespace-pre-wrap">{{ generatedJSON }}</pre>
 				
 						<!-- Modal actions -->
 						<div class="mt-4 flex justify-end space-x-2">

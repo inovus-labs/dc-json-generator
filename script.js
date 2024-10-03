@@ -48,7 +48,7 @@ createApp({
             enableCTA: false,
             showErrors: false,
             screenName: '',
-            imageUrl: null,
+            imageName: '',
         };
     },
     methods: {
@@ -94,9 +94,7 @@ createApp({
             this.formFields.forEach(field => {
                 selectedData[field.name] = field.selectedOptions;
             });
-            if(this.imageUrl) {
-                selectedData.image = this.imageUrl;
-            }
+            selectedData.image = this.imageName;
             selectedData.date = new Date().toISOString();
             this.generatedJSON = JSON.stringify(selectedData, null, 2);
             this.showModal = true; 
@@ -130,8 +128,8 @@ createApp({
                     acceptedFileTypes: ['image/*'],
                     timeout: 7000,
                     onload: (response) => {
-                        console.log(response);
-                        this.imageUrl = response.url;
+                        response = JSON.parse(response);
+                        this.imageName = response.url;
                     },
                     onerror: (response) => {
                         console.error('Failed to upload:', response);
