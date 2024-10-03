@@ -287,4 +287,107 @@ export const data = {
         }
     ],
 
-};
+    // Flow
+    flow: [
+        {
+            title: 'New User Experience',
+            options: [
+                { label: 'Onboarding', value: 'onboarding' },
+                { label: 'Creating Account', value: 'creating-account' },
+                { label: 'Browsing Tutorial', value: 'browsing-tutorial' }
+            ]
+        },
+        {
+            title: 'Account Management',
+            options: [
+                { label: 'Logging In', value: 'logging-in' },
+                { label: 'Logging Out', value: 'logging-out' },
+                { label: 'Editing Profile', value: 'editing-profile' },
+                { label: 'Deleting & Deactivating Account', value: 'deleting-deactivating-account' },
+                { label: 'Resetting Password', value: 'resetting-password' },
+                { label: 'Switching Account', value: 'switching-account' },
+            ]
+        },
+        {
+            title: 'New User Experience',
+            options: [
+                { label: 'Adding to Cart & Bag', value: 'adding-to-cart-bag' },
+                { label: 'Purchasing & Ordering', value: 'purchasing-ordering' },
+                { label: 'Booking & Reserving', value: 'booking-reserving' },
+                { label: 'Subscribing & Upgrading', value: 'subscribing-upgrading' },
+                { label: 'Transferring Money & Donating', value: 'transferring-money-donating' },
+                { label: 'Listing', value: 'listing' },
+                { label: 'Canceling Order & Refunding', value: 'canceling-order-refunding' },
+                { label: 'Canceling Subscription', value: 'canceling-subscription' },
+                { label: 'Redeeming', value: 'redeeming' }
+            ]
+        },
+        {
+            title: 'Social',
+            options: [
+                { label: 'Sharing', value: 'sharing' },
+                { label: 'Chatting & Sending Messages', value: 'chatting-sending-messages' },
+                { label: 'Gifting', value: 'gifting' },
+                { label: 'Commenting & Replying', value: 'commenting-replying' },
+                { label: 'Liking & Upvoting', value: 'liking-upvoting' },
+                { label: 'Reporting', value: 'reporting' },
+                { label: 'Banning & Blocking', value: 'banning-blocking' },
+                { label: 'Muting', value: 'muting' },
+                { label: 'Following & Subscribing', value: 'following-subscribing' },
+                { label: 'Scheduling', value: 'scheduling' },
+                { label: 'Joining & Accepting', value: 'joining-accepting' },
+                { label: 'Leaving', value: 'leaving' },
+                { label: 'Requesting', value: 'requesting' },
+                { label: 'Calling', value: 'calling' },
+                { label: 'Giving Feedback', value: 'giving-feedback' },
+                { label: 'Reviewing & Rating', value: 'reviewing-rating' },
+                { label: 'Registering', value: 'registering' },
+                { label: 'Inviting Teammates & Friends', value: 'inviting-teammates-friends' },
+                { label: 'Referring Friends', value: 'referring-friends' }
+            ]
+        },
+        {
+            title: 'Content',
+            options:[
+                { label: 'Adding & Creating', value: 'adding-creating' },
+                { label: 'Editing & Updating', value: 'editing-updating' },
+                { label: 'Deleting & Removing', value: 'deleting-removing' },
+                { label: 'Searching & Finding', value: 'searching-finding' },
+                { label: 'Filtering & Sorting', value: 'filtering-sorting' },
+                { label: 'Saving to Collection', value: 'saving-to-collection' },
+                { label: 'Starting & Completing', value: 'starting-completing' },
+                { label: 'Watching Video', value: 'watching-video' },
+                { label: 'Listening to Audio', value: 'listening-to-audio' },
+                { label: 'Taking Photos', value: 'taking-photos' },
+                { label: 'Scanning', value: 'scanning' },
+                { label: 'Drawing', value: 'drawing' },
+                { label: 'Recording Audio & Video', value: 'recording-audio-video' },
+                { label: 'Uploading & Downloading', value: 'uploading-downloading' },
+                { label: 'Importing & Exporting', value: 'importing-exporting' },
+                { label: 'Selecting & Choosing', value: 'selecting-choosing' },
+                { label: 'Copying & Duplicating', value: 'copying-duplicating' },
+                { label: 'Moving', value: 'moving' },
+                { label: 'Reordering', value: 'reordering' },
+                { label: 'Logging & Tracking', value: 'logging-tracking' },
+                { label: 'Publishing', value: 'publishing' },
+                { label: 'Marking', value: 'marking' },
+                { label: 'Pinning', value: 'pinning' },
+                
+            ]
+        },
+        {
+            title: 'Misc',
+            options:[
+                { label: 'Archiving', value: 'archiving' },
+                { label: 'Enabling & Disabling', value: 'enabling-disabling' },
+                { label: 'Setting Up', value: 'setting-up' },
+                { label: 'Connecting & Linking', value: 'connecting-linking' },
+                { label: 'Verifying', value: 'verifying' },
+                { label: 'Showing & Hiding', value: 'showing-hiding' },
+                { label: 'Switching to Dark Mode', value: 'switching-to-dark-mode' },
+                { label: 'Switching View', value: 'switching-view' },
+                { label: 'Turning On/Off', value: 'turning-on-off' }
+            ]
+        }
+    ]
+}
