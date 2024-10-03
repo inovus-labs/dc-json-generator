@@ -146,9 +146,9 @@
 	
 				<div class="text-center text-lg">
 					<button
-						@click.stop="!formFields.every(field => field?.selectedOptions?.length) ? showErrors = true : generateJSON()"
+						@click.stop="!formFields.every(field => field?.selectedOptions?.length) || !imageName || !screenName ? showErrors = true : generateJSON()"
 						class="font-semibold py-1.5 px-6 rounded"
-						:class="!formFields.every(field => field.selectedOptions?.length) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-500 transition'"
+						:class="!formFields.every(field => field?.selectedOptions?.length) || !imageName || !screenName ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-500 transition'"
 					>
 						Generate JSON
 					</button>
@@ -184,7 +184,7 @@
 									Copy to Clipboard
 								</button>
 								<button
-									@click.stop="showModal = false"
+									@click.stop="closeModal"
 									class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-400 transition"
 								>
 									Close
