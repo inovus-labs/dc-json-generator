@@ -153,8 +153,7 @@ export const data = {
                 { label: 'Set', value: 'set' },
                 { label: 'Schedule', value: 'schedule' },
                 { label: 'Like & Upvote', value: 'like-upvote' },
-                { label: 'Follow & SUbscribe', value: 'follow-subscribe' },
-                { label: 'Follow & SUbscribe', value: 'follow-subscribe' },
+                { label: 'Follow & Subscribe', value: 'follow-subscribe' },
                 { label: 'Share', value: 'share' },
                 { label: 'Flag & Report', value: 'flag-report' },
                 { label: 'Ban & Block', value: 'ban-block' },
@@ -386,7 +385,8 @@ export const data = {
                 { label: 'Showing & Hiding', value: 'showing-hiding' },
                 { label: 'Switching to Dark Mode', value: 'switching-to-dark-mode' },
                 { label: 'Switching View', value: 'switching-view' },
-                { label: 'Turning On/Off', value: 'turning-on-off' }
+                { label: 'Turning On/Off', value: 'turning-on-off' },
+                { label: 'Misc', value: 'misc' }
             ]
         }
     ]
