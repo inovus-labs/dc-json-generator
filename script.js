@@ -7,9 +7,9 @@ createApp({
         return {
             formFields: [
                 {
-                    name: 'product_category',
-                    label: 'Category',
-                    options: data.product_category,
+                    name: 'user_flow',
+                    label: 'User Flow',
+                    data: data.user_flow,
                     selectedOptions: [],
                     multiple: true,
                     search: '',

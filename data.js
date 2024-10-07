@@ -42,7 +42,6 @@ export const data = {
         { label: "Travel & Transportation", value: "travel & transportation" },
         { label: "Utilities", value: "utilities" },
     ],
-    
 
     // Screens
     screens: [
@@ -213,7 +212,9 @@ export const data = {
         },
 
         
-    ],  // UI Elements
+    ],
+    
+    // UI Elements
     ui_elements: [
         {
             title: 'Control',
@@ -287,7 +288,7 @@ export const data = {
     ],
 
     // Flow
-    flow: [
+    user_flow: [
         {
             title: 'New User Experience',
             options: [
@@ -308,7 +309,7 @@ export const data = {
             ]
         },
         {
-            title: 'New User Experience',
+            title: 'Commerce & Finance',
             options: [
                 { label: 'Adding to Cart & Bag', value: 'adding-to-cart-bag' },
                 { label: 'Purchasing & Ordering', value: 'purchasing-ordering' },
